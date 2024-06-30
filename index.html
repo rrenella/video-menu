@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Menu</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: url('https://onedrive.live.com/download?resid=D22BED2F9284BA3%219809&authkey=%21ACCmF48lcyCkYsw') no-repeat center center fixed;
+            background-size: cover;
+            overflow: hidden;
+        }
+        .menu {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90%;
+            overflow-y: auto;
+            z-index: 1;
+        }
+        .menu button {
+            width: 30%;
+            max-width: 140px;
+            padding-top: 40%;
+            background: url('https://onedrive.live.com/download?resid=D22BED2F9284BA3%219808&authkey=%21AOszQyjlINKhCpg') no-repeat center center;
+            background-size: contain;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-shadow: 1px 1px 2px black;
+            margin: 5px;
+            position: relative;
+        }
+        .menu button span {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .menu button:hover {
+            filter: brightness(0.9);
+        }
+        .video-container {
+            display: none;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: black;
+            z-index: 2;
+        }
+        video {
+            width: 100%;
+            height: 100%;
+        }
+        .fairy {
+            position: absolute;
+            width: 10%;
+        }
+        .firefly {
+            position: absolute;
+            width: 15%;
+        }
+        @keyframes appear {
+            0%, 100% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+        @media (max-width: 768px) {
+            .menu button {
+                width: 45%;
+                font-size: 0.8rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .menu button {
+                width: 90%;
+                font-size: 0.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="menu">
+        <button onclick="playVideo('https://onedrive.live.com/download?resid=D22BED2F9284BA3%219812&authkey=%21AMAunFFuF-xTEGY')"><span>Clue 0</span></button>
+        <button onclick="playVideo('https://onedrive.live.com/download?resid=D22BED2F9284BA3%219810&authkey=%21AJJLyzR_bFrfkO4')"><span>Clue 1</span></button>
+        <button onclick="playVideo('https://onedrive.live.com/download?resid=D22BED2F9284BA3%219811&authkey=%21AEpiGFhZg3hU-x0')"><span>Clue 2</span></button>
+        <button onclick="playVideo('https://onedrive.live.com/download?resid=D22BED2F9284BA3%219813&authkey=%21ANZy7yZoJ0GqFes')"><span>Clue 3</span></button>
+        <button onclick="playVideo('https://onedrive.live.com/download?resid=D22BED2F9284BA3%219814&authkey=%21ANWijmES1fXCjgM')"><span>Clue 4</span></button>
+        <button onclick="playVideo('https://onedrive.live.com/download?resid=D22BED2F9284BA3%219815&authkey=%21ANcJHnVxQVH_llY')"><span>Clue 5</span></button>
+        <button onclick="playVideo('https://onedrive.live.com/download?resid=D22BED2F9284BA3%219817&authkey=%21AMVB_yrOJIgqjww')"><span>Clue 6</span></button>
+        <button onclick="playVideo('https://onedrive.live.com/download?resid=D22BED2F9284BA3%219816&authkey=%21AOcYRvRSev_hOlg')"><span>Clue 7</span></button>
+        <button onclick="playVideo('https://onedrive.live.com/download?resid=D22BED2F9284BA3%219818&authkey=%21ALipmfSxpa4HdtU')"><span>Clue 8</span></button>
+    </div>
+    <div class="video-container">
+        <video id="videoPlayer" controls></video>
+    </div>
+    <img src="https://onedrive.live.com/download?resid=D22BED2F9284BA3%219847&authkey=%21AIX2Entpci8z69c&" class="fairy" id="fairy2" alt="Flying Fairy 2">
+    <img src="https://onedrive.live.com/download?resid=D22BED2F9284BA3%219846&authkey=%21AFlPrnF9c61r35w&" class="fairy" id="fairy4" alt="Flying Fairy 4">
+    <img src="https://onedrive.live.com/download?resid=D22BED2F9284BA3%219845&authkey=%21ABQ3fBfZvUMdHi0&" class="fairy" id="fairy3" alt="Flying Fairy 3">
+    <img src="https://onedrive.live.com/download?resid=D22BED2F9284BA3%219859&authkey=%21APhIoB0sh9dTnwo&" class="firefly" id="firefly" alt="Firefly">
+    <audio id="menuMusic" src="https://onedrive.live.com/download?resid=D22BED2F9284BA3%219857&authkey=%21AKmC6KJgBFlsdbg" loop></audio>
+    <script>
+        const menu = document.querySelector('.menu');
+        const videoContainer = document.querySelector('.video-container');
+        const videoPlayer = document.getElementById('videoPlayer');
+        const menuMusic = document.getElementById('menuMusic');
+        const fairy2 = document.getElementById('fairy2');
+        const fairy3 = document.getElementById('fairy3');
+        const fairy4 = document.getElementById('fairy4');
+        const firefly = document.getElementById('firefly');
+
+        // Play menu music on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            menuMusic.play().catch(function(error) {
+                console.log('Autoplay was prevented: ', error);
+            });
+        });
+
+        function playVideo(src) {
+            menu.style.display = 'none';
+            videoContainer.style.display = 'flex';
+            videoPlayer.src = src;
+            videoPlayer.play();
+            videoPlayer.requestFullscreen().catch(err => {
+                console.log(err);
+            });
+            menuMusic.pause();
+        }
+
+        videoPlayer.onended = () => {
+            document.exitFullscreen().then(() => {
+                videoContainer.style.display = 'none';
+                menu.style.display = 'flex';
+                videoPlayer.src = '';
+                menuMusic.play();
+            }).catch(err => {
+                console.log(err);
+            });
+        };
+
+        window.addEventListener('orientationchange', () => {
+            if (screen.orientation.angle === 90 || screen.orientation.angle === -90) {
+                videoPlayer.style.width = '100vw';
+                videoPlayer.style.height = '100vh';
+            } else {
+                videoPlayer.style.width = '100%';
+                videoPlayer.style.height = '100%';
+            }
+        });
+
+        function randomDirection() {
+            const angle = Math.random() * 2 * Math.PI;
+            return { x: Math.cos(angle), y: Math.sin(angle) };
+        }
+
+        function animateFairy(fairy) {
+            let position = { x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight };
+            let direction = randomDirection();
+            const speed = 0.5; // Reduced speed
+
+            function moveFairy() {
+                position.x += direction.x * speed;
+                position.y += direction.y * speed;
+
+                if (position.x < 0 || position.x > window.innerWidth - fairy.offsetWidth) {
+                    direction.x *= -1;
+                }
+                if (position.y < 0 || position.y > window.innerHeight - fairy.offsetHeight) {
+                    direction.y *= -1;
+                }
+
+                fairy.style.left = `${position.x}px`;
+                fairy.style.top = `${position.y}px`;
+
+                requestAnimationFrame(moveFairy);
+            }
+
+            moveFairy();
+        }
+
+        function showFairy(fairy) {
+            const { x, y } = randomPosition();
+            fairy.style.left = `${x}%`;
+            fairy.style.top = `${y}%`;
+            fairy.style.display = 'block';
+            setTimeout(() => {
+                fairy.style.display = 'none';
+                setTimeout(() => showFairy(fairy), Math.random() * 5000 + 5000);
+            }, 6000);
+        }
+
+        function randomPosition() {
+            const x = Math.random() * 90;
+            const y = Math.random() * 90;
+            return { x, y };
+        }
+
+        animateFairy(fairy2);
+        animateFairy(fairy3);
+        showFairy(fairy4);
+        showFairy(firefly);
+    </script>
+</body>
+</html>
