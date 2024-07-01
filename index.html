@@ -67,13 +67,15 @@
             width: 100%;
             height: 100%;
         }
-        .fairy {
+        .fairy, .firefly {
             position: absolute;
             width: 10%;
+            z-index: 3;
         }
         .firefly {
-            position: absolute;
             width: 15%;
+            display: none;
+            z-index: 4;
         }
         @keyframes appear {
             0%, 100% {
@@ -116,23 +118,14 @@
     <img src="https://onedrive.live.com/download?resid=D22BED2F9284BA3%219846&authkey=%21AFlPrnF9c61r35w&" class="fairy" id="fairy4" alt="Flying Fairy 4">
     <img src="https://onedrive.live.com/download?resid=D22BED2F9284BA3%219845&authkey=%21ABQ3fBfZvUMdHi0&" class="fairy" id="fairy3" alt="Flying Fairy 3">
     <img src="https://onedrive.live.com/download?resid=D22BED2F9284BA3%219859&authkey=%21APhIoB0sh9dTnwo&" class="firefly" id="firefly" alt="Firefly">
-    <audio id="menuMusic" src="https://onedrive.live.com/download?resid=D22BED2F9284BA3%219857&authkey=%21AKmC6KJgBFlsdbg" loop></audio>
     <script>
         const menu = document.querySelector('.menu');
         const videoContainer = document.querySelector('.video-container');
         const videoPlayer = document.getElementById('videoPlayer');
-        const menuMusic = document.getElementById('menuMusic');
         const fairy2 = document.getElementById('fairy2');
         const fairy3 = document.getElementById('fairy3');
         const fairy4 = document.getElementById('fairy4');
         const firefly = document.getElementById('firefly');
-
-        // Play menu music on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            menuMusic.play().catch(function(error) {
-                console.log('Autoplay was prevented: ', error);
-            });
-        });
 
         function playVideo(src) {
             menu.style.display = 'none';
@@ -142,7 +135,6 @@
             videoPlayer.requestFullscreen().catch(err => {
                 console.log(err);
             });
-            menuMusic.pause();
         }
 
         videoPlayer.onended = () => {
@@ -150,7 +142,6 @@
                 videoContainer.style.display = 'none';
                 menu.style.display = 'flex';
                 videoPlayer.src = '';
-                menuMusic.play();
             }).catch(err => {
                 console.log(err);
             });
@@ -213,10 +204,47 @@
             return { x, y };
         }
 
+        function animateFirefly(firefly) {
+            let position = { x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight };
+            let direction = randomDirection();
+            const speed = 0.5; // Reduced speed
+
+            function moveFirefly() {
+                position.x += direction.x * speed;
+                position.y += direction.y * speed;
+
+                if (position.x < 0 || position.x > window.innerWidth - firefly.offsetWidth) {
+                    direction.x *= -1;
+                }
+                if (position.y < 0 || position.y > window.innerHeight - firefly.offsetHeight) {
+                    direction.y *= -1;
+                }
+
+                firefly.style.left = `${position.x}px`;
+                firefly.style.top = `${position.y}px`;
+
+                requestAnimationFrame(moveFirefly);
+            }
+
+            moveFirefly();
+        }
+
+        function showFirefly(firefly) {
+            const { x, y } = randomPosition();
+            firefly.style.left = `${x}%`;
+            firefly.style.top = `${y}%`;
+            firefly.style.display = 'block';
+            setTimeout(() => {
+                firefly.style.display = 'none';
+                setTimeout(() => showFirefly(firefly), Math.random() * 5000 + 5000);
+            }, 6000);
+        }
+
         animateFairy(fairy2);
         animateFairy(fairy3);
         showFairy(fairy4);
-        showFairy(firefly);
+        animateFirefly(firefly);
+        showFirefly(firefly);
     </script>
 </body>
 </html>
