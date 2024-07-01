@@ -207,7 +207,7 @@
         function animateFirefly(firefly) {
             let position = { x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight };
             let direction = randomDirection();
-            const speed = 0.5; // Reduced speed
+            const speed = 0.1; // Reduced speed
 
             function moveFirefly() {
                 position.x += direction.x * speed;
@@ -237,7 +237,7 @@
             setTimeout(() => {
                 firefly.style.display = 'none';
                 setTimeout(() => showFirefly(firefly), Math.random() * 5000 + 5000);
-            }, 6000);
+            }, 15000);
         }
 
         animateFairy(fairy2);
