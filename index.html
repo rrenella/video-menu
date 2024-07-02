@@ -73,7 +73,7 @@
             z-index: 3;
         }
         .firefly {
-            width: 20%;
+            width: 15%;
             display: none;
             z-index: 4;
         }
@@ -118,14 +118,23 @@
     <img src="https://onedrive.live.com/download?resid=D22BED2F9284BA3%219846&authkey=%21AFlPrnF9c61r35w&" class="fairy" id="fairy4" alt="Flying Fairy 4">
     <img src="https://onedrive.live.com/download?resid=D22BED2F9284BA3%219845&authkey=%21ABQ3fBfZvUMdHi0&" class="fairy" id="fairy3" alt="Flying Fairy 3">
     <img src="https://onedrive.live.com/download?resid=D22BED2F9284BA3%219859&authkey=%21APhIoB0sh9dTnwo&" class="firefly" id="firefly" alt="Firefly">
+    <audio id="menuMusic" src="https://onedrive.live.com/download?resid=D22BED2F9284BA3%219857&authkey=%21AKmC6KJgBFlsdbg" loop></audio>
     <script>
         const menu = document.querySelector('.menu');
         const videoContainer = document.querySelector('.video-container');
         const videoPlayer = document.getElementById('videoPlayer');
+        const menuMusic = document.getElementById('menuMusic');
         const fairy2 = document.getElementById('fairy2');
         const fairy3 = document.getElementById('fairy3');
         const fairy4 = document.getElementById('fairy4');
         const firefly = document.getElementById('firefly');
+
+        // Play menu music on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            menuMusic.play().catch(function(error) {
+                console.log('Autoplay was prevented: ', error);
+            });
+        });
 
         function playVideo(src) {
             menu.style.display = 'none';
@@ -135,6 +144,7 @@
             videoPlayer.requestFullscreen().catch(err => {
                 console.log(err);
             });
+            menuMusic.pause();
         }
 
         videoPlayer.onended = () => {
@@ -142,6 +152,7 @@
                 videoContainer.style.display = 'none';
                 menu.style.display = 'flex';
                 videoPlayer.src = '';
+		menuMusic.play();
             }).catch(err => {
                 console.log(err);
             });
